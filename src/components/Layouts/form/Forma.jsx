@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Button, Form } from "rsuite";
+import { Button, Form, Message } from "rsuite";
 import { addTodo } from "../../../redux/todoSlicer";
 import { useState } from "react";
 
@@ -7,21 +7,29 @@ const Forma = () => {
   const dispatch = useDispatch();
   const [input, setInput] = useState("");
   const [description, setDescription] = useState("");
-
   const handleAddTodo = () => {
-    dispatch(
-      addTodo({
-        name: input,
-        desc: description,
-      })
-    );
-    window.location.reload();
+    if (!input && !description) {
+      alert("Input fields must not be empty ... Name and Description ");
+      window.location.reload();
+    } else if (!input) {
+      alert("Input fields must not be empty ... → Name ←");
+    } else if (!description) {
+      alert("Input fields must not be empty ... → Description ←");
+    } else {
+      window.location.reload();
+      dispatch(
+        addTodo({
+          name: input,
+          desc: description,
+        })
+      );
+    }
   };
 
   return (
     <div className="form__container">
       <div className="box">
-        <p style={{ fontSize: "40px", margin: "15px" }}>Todo Aplication</p>
+        <p className="box__title">Todo Aplication</p>
         <div className="form__box">
           <Form layout="inline" onSubmit={handleAddTodo}>
             <Form.Group controlId="username-7">
@@ -30,7 +38,8 @@ const Forma = () => {
                 placeholder="Todo Title"
                 required
                 className="form__input"
-                onChange={(e) => setInput(e)}
+                onChange={(e) => setInput(e.trim())}
+                autoFocus
               />
               <Form.HelpText tooltip>Required</Form.HelpText>
             </Form.Group>
@@ -43,7 +52,7 @@ const Forma = () => {
                 type="text"
                 autoComplete="off"
                 className="form__input"
-                onChange={(e) => setDescription(e)}
+                onChange={(e) => setDescription(e.trim())}
               />
               <Form.HelpText tooltip>Required</Form.HelpText>
             </Form.Group>

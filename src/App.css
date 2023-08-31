@@ -85,6 +85,10 @@ td:nth-child(4) {
   position: fixed;
   bottom: 0;
 }
+.box__title {
+  font-size: 40px;
+  margin: 15px;
+}
 @media (max-width: 930px) {
   .form__input {
     width: auto !important;
@@ -106,4 +110,20 @@ td:nth-child(4) {
   td:nth-child(3) {
     width: 150px;
   }
+}
+
+@media (max-width: 470px) {
+  .form__container {
+    display: flex;
+    flex-direction: column;
+  }
+  .box__title {
+    font-size: 20px !important;
+  }
+  .form__box {
+    border: none;
+  }
+}
+
+@media (max-width: 380px) {
 }
