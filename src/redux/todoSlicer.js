@@ -31,6 +31,7 @@ export const todoSlice = createSlice({
       } else {
         localStorage.setItem("todoList", JSON.stringify([{ ...todo }]));
       }
+      console.log(JSON.parse(todoList));
     },
     removeTodo: (state, action) => {
       const todoList = localStorage.getItem("todoList");
@@ -45,11 +46,6 @@ export const todoSlice = createSlice({
       localStorage.setItem("todoList", JSON.stringify(action.payload));
     },
     toggleTodo: (state, action) => {
-      // const todo = state.todos.find((todo) => todo.id === action.payload);
-      // if (todo) {
-      //   todo.completed = !todo.completed;
-      // }
-
       const storeData = JSON.parse(localStorage.getItem("todoList")) || [];
       const resaultData = storeData.map((item) => {
         let completed = item.completed;
@@ -65,19 +61,23 @@ export const todoSlice = createSlice({
       localStorage.setItem("todoList", JSON.stringify(resaultData));
       state.todos = resaultData;
     },
-    handleEdit: (state, action) => {},
+
     updateTodo: (state, action) => {
-      const todoList = localStorage.getItem("todoList");
-      if (todoList) {
-        const todoListArr = JSON.parse(todoList);
-        todoListArr.forEach((todo) => {
-          if (todo.id === action.payload.id) {
-            todo.title = action.payload.title;
-            todo.description = action.payload.description;
+      const { name, desc } = action.payload.text;
+      const { id } = action.payload;
+      const newData = JSON.parse(localStorage.getItem("todoList"));
+      const todo = newData.find((todo) => todo.id === action.payload.id);
+      if (todo) {
+        const resaultData = newData.map((item) => {
+          if (item.id === id) {
+            let text = { name: name, desc: desc };
+            return { ...item, text };
+          } else {
+            return item;
           }
         });
-        localStorage.getItem("todoList", JSON.stringify(todoListArr));
-        state.todos = [...todoListArr];
+        localStorage.setItem("todoList", JSON.stringify(resaultData));
+        state.todos = resaultData;
       }
     },
   },

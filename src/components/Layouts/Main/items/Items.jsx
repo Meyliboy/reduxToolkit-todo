@@ -1,15 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Checkbox } from "rsuite";
 import {
-  handleEdit,
   removeTodo,
   toggleTodo,
+  updateTodo,
 } from "../../../../redux/todoSlicer";
 
 const Items = () => {
   const todos = useSelector((state) => state.todo.todos);
-
   const dispatch = useDispatch();
+
+  function handleEdited(item) {
+    let name = prompt("Name:", "");
+    let desc = prompt("Description:");
+    let { id, text, completed } = item;
+    text = {
+      name: name,
+      desc: desc,
+    };
+    dispatch(updateTodo({ text, id, completed }));
+  }
 
   return (
     <div>
@@ -63,7 +73,7 @@ const Items = () => {
                     appearance="primary"
                     color="blue"
                     style={{ marginRight: "10px" }}
-                    onClick={() => dispatch(handleEdit(item))}
+                    onClick={() => handleEdited(item)}
                   >
                     Edit
                   </Button>

@@ -31,7 +31,6 @@ const Main = () => {
             disabled
             appearance="primary"
             style={{ backgroundColor: "#289A4AFF" }}
-            onClick={() => dispatch(markAsCompleted(true))}
           >
             Mark As Completed
           </Button>
